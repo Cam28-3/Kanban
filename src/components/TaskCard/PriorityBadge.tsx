@@ -1,9 +1,9 @@
 import type { Priority } from '../../types/task'
 
 const STYLES: Record<Priority, string> = {
-  low: 'bg-ink/5 text-ink-muted',
-  normal: 'bg-status-todo-soft text-status-todo',
-  high: 'bg-danger-soft text-danger',
+  low: 'bg-white/5 text-ink-faint',
+  normal: 'bg-status-todo/15 text-status-todo',
+  high: 'bg-danger/15 text-danger',
 }
 
 const LABELS: Record<Priority, string> = {

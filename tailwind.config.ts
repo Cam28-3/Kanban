@@ -5,31 +5,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: '#f4f5f7',
-        surface: '#ffffff',
+        canvas: '#131419',
+        surface: '#1c1e26',
+        'surface-hover': '#23262f',
         ink: {
-          DEFAULT: '#1c1f26',
-          muted: '#5b6270',
-          faint: '#9aa1ac',
+          DEFAULT: '#d8dae0',
+          muted: '#9096a3',
+          faint: '#666c7a',
         },
         accent: {
-          DEFAULT: '#4f46e5',
-          hover: '#4338ca',
-          soft: '#eef2ff',
+          DEFAULT: '#6366f1',
+          hover: '#818cf8',
         },
         status: {
-          todo: '#64748b',
-          'todo-soft': '#f1f5f9',
-          progress: '#d97706',
-          'progress-soft': '#fef3c7',
-          review: '#7c3aed',
-          'review-soft': '#f3e8ff',
-          done: '#059669',
-          'done-soft': '#d1fae5',
+          todo: '#94a3b8',
+          progress: '#fbbf24',
+          review: '#a78bfa',
+          done: '#34d399',
         },
         danger: {
-          DEFAULT: '#dc2626',
-          soft: '#fee2e2',
+          DEFAULT: '#f87171',
         },
       },
       fontFamily: {
@@ -42,8 +37,8 @@ export default {
         pill: '9999px',
       },
       boxShadow: {
-        card: '0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)',
-        'card-hover': '0 4px 8px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.06)',
+        card: '0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25)',
+        'card-hover': '0 12px 28px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3)',
       },
     },
   },

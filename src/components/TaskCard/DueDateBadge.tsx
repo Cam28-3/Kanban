@@ -1,9 +1,9 @@
 import { formatDueDate, getDueUrgency } from '../../utils/date'
 
 const STYLES = {
-  overdue: 'bg-danger-soft text-danger',
-  soon: 'bg-status-progress-soft text-status-progress',
-  normal: 'bg-ink/5 text-ink-muted',
+  overdue: 'bg-danger/15 text-danger',
+  soon: 'bg-status-progress/15 text-status-progress',
+  normal: 'bg-white/5 text-ink-muted',
 }
 
 export function DueDateBadge({ dueDate }: { dueDate: string | null }) {

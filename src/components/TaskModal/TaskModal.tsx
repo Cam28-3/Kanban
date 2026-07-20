@@ -36,8 +36,8 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 px-4">
-      <div className="w-full max-w-md rounded-card bg-surface p-6 shadow-card-hover">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-card border border-white/5 bg-surface p-6 shadow-card-hover">
         <h2 className="font-display text-lg font-bold text-ink">New Task</h2>
 
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
@@ -50,7 +50,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
               autoFocus
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-ink/10 px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-canvas px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
               placeholder="Write the launch checklist"
             />
           </div>
@@ -64,7 +64,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               rows={3}
-              className="mt-1 w-full rounded-lg border border-ink/10 px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-white/10 bg-canvas px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
               placeholder="Optional details"
             />
           </div>
@@ -78,7 +78,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
                 id="priority"
                 value={priority}
                 onChange={(event) => setPriority(event.target.value as Priority)}
-                className="mt-1 w-full rounded-lg border border-ink/10 px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
+                className="mt-1 w-full rounded-lg border border-white/10 bg-canvas px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
               >
                 <option value="low">Low</option>
                 <option value="normal">Normal</option>
@@ -95,7 +95,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
                 type="date"
                 value={dueDate}
                 onChange={(event) => setDueDate(event.target.value)}
-                className="mt-1 w-full rounded-lg border border-ink/10 px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
+                className="mt-1 w-full rounded-lg border border-white/10 bg-canvas px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
               />
             </div>
           </div>

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 body {
   font-family: 'Inter', sans-serif;
+  @apply bg-canvas text-ink;
+  background-image: radial-gradient(
+    ellipse 900px 500px at 50% -10%,
+    rgba(99, 102, 241, 0.12),
+    transparent 60%
+  );
+  background-repeat: no-repeat;
 }

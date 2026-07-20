@@ -10,7 +10,7 @@ export function Button({ variant = 'primary', className = '', ...props }: Button
 
   const variants = {
     primary: 'bg-accent text-white hover:bg-accent-hover',
-    secondary: 'bg-surface text-ink border border-ink/10 hover:bg-canvas',
+    secondary: 'bg-surface text-ink border border-white/10 hover:bg-surface-hover',
   }
 
   return <button className={`${base} ${variants[variant]} ${className}`} {...props} />
