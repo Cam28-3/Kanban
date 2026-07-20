@@ -23,7 +23,7 @@ export function BoardStats({ tasks }: BoardStatsProps) {
       {stats.map((stat) => (
         <div key={stat.label} className="flex flex-col px-5 first:pl-0 last:pr-0">
           <span
-            className={`font-mono text-lg font-semibold ${stat.label === 'Overdue' && stat.value > 0 ? 'text-danger' : 'text-ink'}`}
+            className={`font-mono text-lg font-bold ${stat.label === 'Overdue' && stat.value > 0 ? 'text-danger' : 'text-ink'}`}
           >
             {stat.value}
           </span>

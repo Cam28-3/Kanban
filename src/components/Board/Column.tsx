@@ -27,7 +27,7 @@ export function Column({ status, tasks, loading }: ColumnProps) {
       <div className="mb-3 flex items-center gap-2 px-1">
         <span className={`h-[3px] w-4 rounded-pill ${STATUS_ACCENT[status]}`} />
         <h2 className="font-display text-sm font-semibold text-ink">{STATUS_LABELS[status]}</h2>
-        <span className="ml-auto rounded-pill bg-white/5 px-2 py-0.5 font-mono text-[11px] font-medium text-ink-muted">
+        <span className="ml-auto rounded-pill bg-white/5 px-2 py-0.5 font-mono text-[11px] font-bold text-ink-muted">
           {tasks.length}
         </span>
       </div>

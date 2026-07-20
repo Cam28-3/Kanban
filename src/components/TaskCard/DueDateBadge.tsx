@@ -13,7 +13,7 @@ export function DueDateBadge({ dueDate }: { dueDate: string | null }) {
 
   return (
     <span
-      className={`inline-flex items-center rounded-pill px-2 py-0.5 font-mono text-[11px] font-medium ${STYLES[urgency]}`}
+      className={`inline-flex items-center rounded-pill px-2 py-0.5 font-mono text-[11px] font-bold ${STYLES[urgency]}`}
     >
       {urgency === 'overdue' ? 'Overdue · ' : ''}
       {formatDueDate(dueDate)}

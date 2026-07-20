@@ -30,7 +30,7 @@ export default {
       fontFamily: {
         display: ['Manrope', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'monospace'],
+        mono: ['"Space Mono"', 'monospace'],
       },
       borderRadius: {
         card: '0.75rem',
