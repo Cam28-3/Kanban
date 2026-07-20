@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Geist', sans-serif;
   @apply bg-canvas text-ink;
   background-image: radial-gradient(
     ellipse 900px 500px at 50% -10%,

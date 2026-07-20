@@ -28,9 +28,9 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Manrope', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
-        mono: ['"Space Mono"', 'monospace'],
+        display: ['Geist', 'sans-serif'],
+        body: ['Geist', 'sans-serif'],
+        mono: ['Geist', 'sans-serif'],
       },
       borderRadius: {
         card: '0.75rem',
