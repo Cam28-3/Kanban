@@ -1,5 +1,5 @@
 import { useDroppable } from '@dnd-kit/core'
-import type { Status, Task } from '../../types/task'
+import type { Status, Task, TeamMember } from '../../types/task'
 import { STATUS_LABELS } from '../../types/task'
 import { TaskCard } from '../TaskCard/TaskCard'
 import { EmptyState } from '../ui/EmptyState'
@@ -17,9 +17,10 @@ interface ColumnProps {
   status: Status
   tasks: Task[]
   loading: boolean
+  teamMembers: TeamMember[]
 }
 
-export function Column({ status, tasks, loading }: ColumnProps) {
+export function Column({ status, tasks, loading, teamMembers }: ColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
@@ -41,7 +42,7 @@ export function Column({ status, tasks, loading }: ColumnProps) {
         ) : tasks.length === 0 ? (
           <EmptyState />
         ) : (
-          tasks.map((task) => <TaskCard key={task.id} task={task} />)
+          tasks.map((task) => <TaskCard key={task.id} task={task} teamMembers={teamMembers} />)
         )}
       </div>
     </div>

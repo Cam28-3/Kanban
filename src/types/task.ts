@@ -2,6 +2,17 @@ export type Status = 'todo' | 'in_progress' | 'in_review' | 'done'
 
 export type Priority = 'low' | 'normal' | 'high'
 
+export type AvatarColor =
+  | 'rose'
+  | 'orange'
+  | 'amber'
+  | 'lime'
+  | 'emerald'
+  | 'cyan'
+  | 'sky'
+  | 'violet'
+  | 'fuchsia'
+
 export interface Task {
   id: string
   title: string
@@ -11,8 +22,16 @@ export interface Task {
   description: string | null
   priority: Priority
   due_date: string | null
-  assignee_id: string | null
   labels: string[]
+  assignee_ids: string[]
+}
+
+export interface TeamMember {
+  id: string
+  user_id: string
+  name: string
+  color: AvatarColor
+  created_at: string
 }
 
 export const STATUS_ORDER: Status[] = ['todo', 'in_progress', 'in_review', 'done']

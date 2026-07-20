@@ -4,11 +4,14 @@ import { DndContext } from '@dnd-kit/core'
 import confetti from 'canvas-confetti'
 import { useGuestSession } from '../../hooks/useGuestSession'
 import { useTasks } from '../../hooks/useTasks'
+import { useTeamMembers } from '../../hooks/useTeamMembers'
 import { STATUS_ORDER } from '../../types/task'
 import type { Status } from '../../types/task'
 import { Column } from './Column'
 import { BoardStats } from './BoardStats'
 import { TaskModal } from '../TaskModal/TaskModal'
+import { TeamRoster } from '../Team/TeamRoster'
+import { AddMemberModal } from '../Team/AddMemberModal'
 import { Button } from '../ui/Button'
 import { ErrorBanner } from '../ui/ErrorBanner'
 
@@ -17,7 +20,9 @@ export function Board() {
   const { tasks, loading, error, createTask, moveTask, retry, dismissError } = useTasks(
     session.session?.user.id,
   )
+  const { members, addMember } = useTeamMembers(session.session?.user.id)
   const [modalOpen, setModalOpen] = useState(false)
+  const [addMemberOpen, setAddMemberOpen] = useState(false)
 
   if (session.error) {
     return (
@@ -63,6 +68,7 @@ export function Board() {
         </div>
         <div className="flex items-center gap-4">
           <BoardStats tasks={tasks} />
+          <TeamRoster members={members} onAddClick={() => setAddMemberOpen(true)} />
           <Button onClick={() => setModalOpen(true)} disabled={session.loading}>
             New Task
           </Button>
@@ -83,13 +89,22 @@ export function Board() {
               status={status}
               loading={session.loading || loading}
               tasks={tasks.filter((task) => task.status === status)}
+              teamMembers={members}
             />
           ))}
         </div>
       </DndContext>
 
       {modalOpen && (
-        <TaskModal onClose={() => setModalOpen(false)} onCreate={createTask} />
+        <TaskModal
+          onClose={() => setModalOpen(false)}
+          onCreate={createTask}
+          teamMembers={members}
+        />
+      )}
+
+      {addMemberOpen && (
+        <AddMemberModal onClose={() => setAddMemberOpen(false)} onAdd={addMember} />
       )}
     </div>
   )

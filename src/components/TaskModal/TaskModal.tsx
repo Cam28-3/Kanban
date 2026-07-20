@@ -1,28 +1,38 @@
 import { useState } from 'react'
 import type { FormEvent, KeyboardEvent } from 'react'
 import { Button } from '../ui/Button'
-import type { Priority } from '../../types/task'
+import { Avatar } from '../ui/Avatar'
+import type { Priority, TeamMember } from '../../types/task'
 import { getLabelColor } from '../../utils/labelColor'
 
 interface TaskModalProps {
   onClose: () => void
+  teamMembers: TeamMember[]
   onCreate: (input: {
     title: string
     description?: string
     priority: Priority
     due_date: string | null
     labels: string[]
+    assignee_ids: string[]
   }) => Promise<void>
 }
 
-export function TaskModal({ onClose, onCreate }: TaskModalProps) {
+export function TaskModal({ onClose, onCreate, teamMembers }: TaskModalProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState<Priority>('normal')
   const [dueDate, setDueDate] = useState('')
   const [labels, setLabels] = useState<string[]>([])
   const [labelInput, setLabelInput] = useState('')
+  const [assigneeIds, setAssigneeIds] = useState<string[]>([])
   const [submitting, setSubmitting] = useState(false)
+
+  function toggleAssignee(memberId: string) {
+    setAssigneeIds((prev) =>
+      prev.includes(memberId) ? prev.filter((id) => id !== memberId) : [...prev, memberId],
+    )
+  }
 
   function addLabel() {
     const value = labelInput.trim()
@@ -56,6 +66,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
       priority,
       due_date: dueDate || null,
       labels,
+      assignee_ids: assigneeIds,
     })
     setSubmitting(false)
     onClose()
@@ -158,6 +169,32 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
               />
             </div>
           </div>
+
+          {teamMembers.length > 0 && (
+            <div>
+              <span className="font-body text-xs font-medium text-ink-muted">Assignees</span>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                {teamMembers.map((member) => {
+                  const selected = assigneeIds.includes(member.id)
+                  return (
+                    <button
+                      key={member.id}
+                      type="button"
+                      onClick={() => toggleAssignee(member.id)}
+                      className={`flex items-center gap-1.5 rounded-pill border px-2 py-1 font-body text-xs transition-colors ${
+                        selected
+                          ? 'border-accent bg-accent/10 text-ink'
+                          : 'border-white/10 text-ink-muted hover:border-white/20'
+                      }`}
+                    >
+                      <Avatar name={member.name} color={member.color} />
+                      {member.name}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="mt-2 flex justify-end gap-2">
             <Button type="button" variant="secondary" onClick={onClose}>
