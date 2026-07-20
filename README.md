@@ -37,14 +37,6 @@ Both tables have RLS enabled with select/insert/update/delete policies scoped to
 
 Not built: comments, activity log, search/filter.
 
-## Tradeoffs & What I'd Improve With More Time
-
-- **No task editing after creation** — labels, assignees, priority, and description can only be set at creation time; there's no edit modal for existing tasks (only status via drag, and deletion).
-- **No within-column reordering** — drag-and-drop moves a task between columns but doesn't reorder cards within the same column; would need a `position` column.
-- **Anonymous-only auth** — no cross-device continuity. Clearing browser storage or opening a different browser creates a brand-new empty guest identity, since there's no password to log back in with.
-- **No cascade cleanup on team member deletion** — deleting a member doesn't strip it from tasks' `assignee_ids`; the app silently ignores unresolvable ids when rendering.
-- **Supabase-direct backend** — appropriate at this scope; if business logic grew, the next step would be a thin API layer rather than calling Supabase directly from the frontend.
-
 ## Tech Stack
 
 - Frontend: Vite + React + TypeScript + Tailwind CSS
