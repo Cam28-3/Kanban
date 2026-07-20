@@ -17,7 +17,7 @@ import { ErrorBanner } from '../ui/ErrorBanner'
 
 export function Board() {
   const session = useGuestSession()
-  const { tasks, loading, error, createTask, moveTask, retry, dismissError } = useTasks(
+  const { tasks, loading, error, createTask, moveTask, deleteTask, retry, dismissError } = useTasks(
     session.session?.user.id,
   )
   const { members, addMember } = useTeamMembers(session.session?.user.id)
@@ -90,6 +90,7 @@ export function Board() {
               loading={session.loading || loading}
               tasks={tasks.filter((task) => task.status === status)}
               teamMembers={members}
+              onDeleteTask={deleteTask}
             />
           ))}
         </div>

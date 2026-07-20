@@ -18,9 +18,10 @@ interface ColumnProps {
   tasks: Task[]
   loading: boolean
   teamMembers: TeamMember[]
+  onDeleteTask: (taskId: string) => void
 }
 
-export function Column({ status, tasks, loading, teamMembers }: ColumnProps) {
+export function Column({ status, tasks, loading, teamMembers, onDeleteTask }: ColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
@@ -42,7 +43,14 @@ export function Column({ status, tasks, loading, teamMembers }: ColumnProps) {
         ) : tasks.length === 0 ? (
           <EmptyState />
         ) : (
-          tasks.map((task) => <TaskCard key={task.id} task={task} teamMembers={teamMembers} />)
+          tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              teamMembers={teamMembers}
+              onDelete={onDeleteTask}
+            />
+          ))
         )}
       </div>
     </div>

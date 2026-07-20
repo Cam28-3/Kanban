@@ -97,6 +97,21 @@ export function useTasks(userId: string | undefined) {
     }
   }, [])
 
+  const deleteTask = useCallback(async (taskId: string) => {
+    let previousTasks: Task[] = []
+
+    setState((prev) => {
+      previousTasks = prev.tasks
+      return { ...prev, tasks: prev.tasks.filter((task) => task.id !== taskId), error: null }
+    })
+
+    const { error } = await supabase.from('tasks').delete().eq('id', taskId)
+
+    if (error) {
+      setState((prev) => ({ ...prev, tasks: previousTasks, error: error.message }))
+    }
+  }, [])
+
   const dismissError = useCallback(() => {
     setState((prev) => ({ ...prev, error: null }))
   }, [])
@@ -107,6 +122,7 @@ export function useTasks(userId: string | undefined) {
     error: state.error,
     createTask,
     moveTask,
+    deleteTask,
     retry: fetchTasks,
     dismissError,
   }
