@@ -1,3 +1,4 @@
+// App root. Deliberately thin — all real logic lives in Board and below.
 import { Board } from './components/Board/Board'
 
 function App() {

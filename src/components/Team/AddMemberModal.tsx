@@ -1,9 +1,13 @@
+// "Add Team Member" form: just a name and a color swatch picker (the
+// swatch preview reuses the real Avatar component so what you pick is
+// exactly what the member will look like everywhere else in the app).
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button } from '../ui/Button'
 import { Avatar } from '../ui/Avatar'
 import type { AvatarColor } from '../../types/task'
 
+// Every AvatarColor value, offered as clickable swatches.
 const COLOR_OPTIONS: AvatarColor[] = [
   'rose',
   'orange',

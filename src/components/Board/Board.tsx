@@ -1,3 +1,7 @@
+// Top-level board screen. This is the main orchestrator: it owns the
+// DndContext that makes drag-and-drop work, wires together the three data
+// hooks (session, tasks, team members), and renders the header, the four
+// columns, and both modals.
 import { useState } from 'react'
 import type { DragEndEvent } from '@dnd-kit/core'
 import { DndContext } from '@dnd-kit/core'
@@ -24,6 +28,10 @@ export function Board() {
   const [modalOpen, setModalOpen] = useState(false)
   const [addMemberOpen, setAddMemberOpen] = useState(false)
 
+  // Full-page error state: the guest session itself failed to bootstrap
+  // (e.g. Anonymous Sign-ins disabled in Supabase). Nothing else can work
+  // without a session, so this replaces the whole board rather than showing
+  // an empty one.
   if (session.error) {
     return (
       <div className="mx-auto mt-16 max-w-md px-4">
@@ -32,6 +40,16 @@ export function Board() {
     )
   }
 
+  // Fires whenever a drag gesture ends anywhere in the DndContext below.
+  //
+  // Pseudocode:
+  //   if the card wasn't dropped on any column -> do nothing (snaps back)
+  //   look up which task was dragged, by id
+  //   if its status actually changed:
+  //     persist the move (optimistic update, see useTasks.moveTask)
+  //     if it landed in "Done" -> fire a confetti burst positioned over
+  //       that column (using the column's own on-screen rect, converted
+  //       to the 0-1 fractional coordinates canvas-confetti expects)
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     if (!over) {
@@ -53,7 +71,7 @@ export function Board() {
             x: (rect.left + rect.width / 2) / window.innerWidth,
             y: (rect.top + rect.height / 2) / window.innerHeight,
           },
-          colors: ['#6366f1', '#34d399', '#fbbf24', '#a78bfa'],
+          colors: ['#6366f1', '#34d399', '#fbbf24', '#a78bfa'], // app's own accent/status palette
         })
       }
     }
@@ -75,13 +93,24 @@ export function Board() {
         </div>
       </header>
 
+      {/* Inline, dismissible error banner for task fetch/write failures
+          (distinct from the full-page one above, which is session-level). */}
       {error && (
         <div className="mb-4">
           <ErrorBanner message={error} onRetry={retry} onDismiss={dismissError} />
         </div>
       )}
 
+      {/* DndContext is @dnd-kit's provider — it listens for drag gestures
+          anywhere inside it and calls handleDragEnd when one finishes.
+          Each Column below registers itself as a drop target (useDroppable
+          with id = its status), and each TaskCard registers as draggable
+          (useDraggable with id = its task id) — that's how handleDragEnd
+          knows both "which task" and "which column" from the event. */}
       <DndContext onDragEnd={handleDragEnd}>
+        {/* items-start stops CSS Grid's default row-stretch behavior, so
+            each column's height matches its own content instead of all four
+            being forced to match the tallest one. */}
         <div className="grid grid-cols-4 items-start gap-6">
           {STATUS_ORDER.map((status) => (
             <Column

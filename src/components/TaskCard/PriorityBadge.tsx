@@ -1,3 +1,4 @@
+// Small colored pill shown on each TaskCard for its priority level.
 import type { Priority } from '../../types/task'
 
 const STYLES: Record<Priority, string> = {

@@ -1,3 +1,11 @@
+// Manages the guest user's "team" — lightweight named people (name + color)
+// that tasks can be assigned to. These are rows in `team_members`, scoped to
+// the current guest session by RLS, not real linked user accounts.
+//
+// Note: removing a member here does NOT clean up any Task.assignee_ids
+// arrays that still reference it. That's intentional — those ids simply
+// stop resolving to anything, and TaskCard/TaskModal already filter out
+// unresolvable ids when rendering, so orphaned references are harmless.
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { AvatarColor, TeamMember } from '../types/task'
@@ -15,6 +23,7 @@ export function useTeamMembers(userId: string | undefined) {
     error: null,
   })
 
+  // Loads every team member belonging to this guest user.
   const fetchMembers = useCallback(async () => {
     if (!userId) return
 
@@ -38,6 +47,8 @@ export function useTeamMembers(userId: string | undefined) {
     fetchMembers()
   }, [fetchMembers])
 
+  // Creates a new team member and appends the server's copy (with its
+  // generated id) to local state, so it's immediately assignable to tasks.
   const addMember = useCallback(
     async (name: string, color: AvatarColor) => {
       if (!userId) return
@@ -58,6 +69,9 @@ export function useTeamMembers(userId: string | undefined) {
     [userId],
   )
 
+  // Deletes a team member, optimistically removing it from local state first
+  // and rolling back if the server call fails (same pattern as
+  // useTasks.moveTask/deleteTask).
   const removeMember = useCallback(async (memberId: string) => {
     let previousMembers: TeamMember[] = []
 

@@ -1,3 +1,6 @@
+// Placeholder shown inside a Column when it has zero tasks. Required by the
+// assessment brief as real UI (not just an empty <div>), so an empty board
+// doesn't look broken.
 interface EmptyStateProps {
   label?: string
 }

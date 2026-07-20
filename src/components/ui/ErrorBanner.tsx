@@ -1,3 +1,8 @@
+// Reusable error message bar. Used two ways in Board.tsx:
+//   - full-page, when the guest session itself fails to bootstrap
+//   - inline/dismissible, when a task fetch or write fails
+// `onRetry` and `onDismiss` are both optional so callers only show the
+// buttons that make sense for their situation.
 import { Button } from './Button'
 
 interface ErrorBannerProps {

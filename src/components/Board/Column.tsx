@@ -1,3 +1,6 @@
+// One kanban column (To Do / In Progress / In Review / Done): a header with
+// a colored status indicator + task count, and a drop zone containing that
+// column's cards (or a loading/empty placeholder).
 import { useDroppable } from '@dnd-kit/core'
 import type { Status, Task, TeamMember } from '../../types/task'
 import { STATUS_LABELS } from '../../types/task'
@@ -15,13 +18,17 @@ const STATUS_ACCENT: Record<Status, string> = {
 
 interface ColumnProps {
   status: Status
-  tasks: Task[]
+  tasks: Task[] // already filtered to just this column's tasks by Board.tsx
   loading: boolean
-  teamMembers: TeamMember[]
+  teamMembers: TeamMember[] // passed straight through to each TaskCard
   onDeleteTask: (taskId: string) => void
 }
 
 export function Column({ status, tasks, loading, teamMembers, onDeleteTask }: ColumnProps) {
+  // Registers this column as a drop target. `id: status` is what Board's
+  // handleDragEnd reads as `over.id` to know which column a card was
+  // dropped into. `isOver` flips true while something is being dragged
+  // over this specific column, driving the highlight below.
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
@@ -38,6 +45,8 @@ export function Column({ status, tasks, loading, teamMembers, onDeleteTask }: Co
         ref={setNodeRef}
         className={`flex min-h-[8rem] flex-1 flex-col gap-3 rounded-xl p-1 transition-colors ${isOver ? 'bg-accent/10' : ''}`}
       >
+        {/* Three states, in priority order: still loading -> skeleton,
+            loaded but nothing here -> empty state, otherwise -> real cards. */}
         {loading ? (
           <ColumnSkeleton />
         ) : tasks.length === 0 ? (

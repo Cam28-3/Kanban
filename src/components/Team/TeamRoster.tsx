@@ -1,3 +1,7 @@
+// Compact "who's on this board" widget shown in the header: a stack of
+// existing member avatars plus a "+" button. Clicking "+" doesn't add a
+// member itself — it just asks the parent (Board.tsx) to open
+// AddMemberModal, which does the actual creation.
 import type { TeamMember } from '../../types/task'
 import { Avatar } from '../ui/Avatar'
 

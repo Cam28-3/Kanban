@@ -1,7 +1,11 @@
+// Shared button styling so every button in the app (New Task, modal
+// Cancel/Create, error Retry, etc.) looks consistent. Accepts all normal
+// <button> props (onClick, type, disabled, ...) via ButtonHTMLAttributes,
+// plus a `variant` to pick which style.
 import type { ButtonHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' // primary = filled accent color, secondary = outlined
 }
 
 export function Button({ variant = 'primary', className = '', ...props }: ButtonProps) {

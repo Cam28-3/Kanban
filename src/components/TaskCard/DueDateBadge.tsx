@@ -1,3 +1,7 @@
+// Colored pill showing a task's due date, styled by urgency (see
+// utils/date.ts for the overdue/soon/normal classification). This is one
+// of the two "advanced features" this project scoped in (the other is
+// BoardStats' overdue count).
 import { formatDueDate, getDueUrgency } from '../../utils/date'
 
 const STYLES = {
@@ -9,6 +13,7 @@ const STYLES = {
 export function DueDateBadge({ dueDate }: { dueDate: string | null }) {
   const urgency = getDueUrgency(dueDate)
 
+  // No due date at all -> render nothing (no empty/placeholder badge).
   if (!urgency || !dueDate) return null
 
   return (

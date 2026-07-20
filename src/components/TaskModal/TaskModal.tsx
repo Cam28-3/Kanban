@@ -1,3 +1,8 @@
+// "New Task" form, shown as a modal over the board. Manages its own local
+// form state and only reports out to the parent (via onCreate) once, on
+// submit — the parent then does the actual Supabase insert (see
+// useTasks.createTask) and this modal doesn't know or care that it's
+// talking to a database.
 import { useState } from 'react'
 import type { FormEvent, KeyboardEvent } from 'react'
 import { Button } from '../ui/Button'
@@ -28,12 +33,17 @@ export function TaskModal({ onClose, onCreate, teamMembers }: TaskModalProps) {
   const [assigneeIds, setAssigneeIds] = useState<string[]>([])
   const [submitting, setSubmitting] = useState(false)
 
+  // Assignees are toggled on/off by clicking their chip: present in the
+  // list -> remove it, absent -> add it. This is how one task can have
+  // multiple (or zero) assignees.
   function toggleAssignee(memberId: string) {
     setAssigneeIds((prev) =>
       prev.includes(memberId) ? prev.filter((id) => id !== memberId) : [...prev, memberId],
     )
   }
 
+  // Turns whatever's currently typed in the label input into a chip, then
+  // clears the input. Ignores empty/duplicate values.
   function addLabel() {
     const value = labelInput.trim()
     if (value && !labels.includes(value)) {
@@ -42,6 +52,9 @@ export function TaskModal({ onClose, onCreate, teamMembers }: TaskModalProps) {
     setLabelInput('')
   }
 
+  // Enter or comma commits the current text as a new label chip (like a
+  // typical email "To:" field). Backspace on an empty input deletes the
+  // most recently added chip, so the input behaves like a normal tag field.
   function handleLabelKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault()
@@ -163,13 +176,16 @@ export function TaskModal({ onClose, onCreate, teamMembers }: TaskModalProps) {
                 value={labelInput}
                 onChange={(event) => setLabelInput(event.target.value)}
                 onKeyDown={handleLabelKeyDown}
-                onBlur={addLabel}
+                onBlur={addLabel} // also commit on blur, so clicking away doesn't silently drop text
                 className="min-w-[6rem] flex-1 bg-transparent px-1 py-0.5 font-body text-sm text-ink focus:outline-none"
                 placeholder={labels.length === 0 ? 'Type a label, press Enter' : ''}
               />
             </div>
           </div>
 
+          {/* Only shown once at least one team member exists — no point offering an
+              empty picker. If it's empty, users are expected to add a member first
+              via the "+" button in the board header (see Team/TeamRoster.tsx). */}
           {teamMembers.length > 0 && (
             <div>
               <span className="font-body text-xs font-medium text-ink-muted">Assignees</span>
