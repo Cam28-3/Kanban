@@ -26,7 +26,7 @@ export function TaskCard({ task }: { task: Task }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`touch-none rounded-card border-l-[3px] bg-surface p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover ${STATUS_ACCENT[task.status]} ${isDragging ? 'opacity-50' : ''}`}
+      className={`touch-none rounded-card border-l-[3px] bg-surface p-4 shadow-card hover:shadow-card-hover ${STATUS_ACCENT[task.status]} ${isDragging ? 'opacity-50' : 'transition-all hover:-translate-y-0.5'}`}
     >
       <p className="font-display text-sm font-semibold leading-snug text-ink">{task.title}</p>
       {task.description && (
