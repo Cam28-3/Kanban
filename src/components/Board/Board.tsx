@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { DragEndEvent } from '@dnd-kit/core'
 import { DndContext } from '@dnd-kit/core'
+import confetti from 'canvas-confetti'
 import { useGuestSession } from '../../hooks/useGuestSession'
 import { useTasks } from '../../hooks/useTasks'
 import { STATUS_ORDER } from '../../types/task'
@@ -36,6 +37,20 @@ export function Board() {
     const task = tasks.find((t) => t.id === active.id)
     if (task && task.status !== nextStatus) {
       moveTask(task.id, nextStatus)
+
+      if (nextStatus === 'done') {
+        const rect = over.rect
+        confetti({
+          particleCount: 90,
+          spread: 65,
+          startVelocity: 35,
+          origin: {
+            x: (rect.left + rect.width / 2) / window.innerWidth,
+            y: (rect.top + rect.height / 2) / window.innerHeight,
+          },
+          colors: ['#6366f1', '#34d399', '#fbbf24', '#a78bfa'],
+        })
+      }
     }
   }
 
