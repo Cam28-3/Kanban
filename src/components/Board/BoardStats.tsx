@@ -19,10 +19,14 @@ export function BoardStats({ tasks }: BoardStatsProps) {
   ]
 
   return (
-    <div className="flex gap-6 rounded-card border border-ink/5 bg-surface px-5 py-3 shadow-card">
+    <div className="flex divide-x divide-ink/5 rounded-card border border-ink/5 bg-surface px-5 py-3 shadow-card">
       {stats.map((stat) => (
-        <div key={stat.label} className="flex flex-col">
-          <span className="font-mono text-lg font-semibold text-ink">{stat.value}</span>
+        <div key={stat.label} className="flex flex-col px-5 first:pl-0 last:pr-0">
+          <span
+            className={`font-mono text-lg font-semibold ${stat.label === 'Overdue' && stat.value > 0 ? 'text-danger' : 'text-ink'}`}
+          >
+            {stat.value}
+          </span>
           <span className="font-body text-xs text-ink-faint">{stat.label}</span>
         </div>
       ))}

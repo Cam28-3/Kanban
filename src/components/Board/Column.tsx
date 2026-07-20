@@ -23,16 +23,18 @@ export function Column({ status, tasks, loading }: ColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: status })
 
   return (
-    <div className="flex w-72 shrink-0 flex-col">
-      <div className="mb-3 flex items-center gap-2">
+    <div className="flex min-w-0 flex-col rounded-2xl border border-ink/5 bg-white/60 p-3">
+      <div className="mb-3 flex items-center gap-2 px-1">
         <span className={`h-[3px] w-4 rounded-pill ${STATUS_ACCENT[status]}`} />
         <h2 className="font-display text-sm font-semibold text-ink">{STATUS_LABELS[status]}</h2>
-        <span className="ml-auto font-mono text-xs text-ink-faint">{tasks.length}</span>
+        <span className="ml-auto rounded-pill bg-ink/5 px-2 py-0.5 font-mono text-[11px] font-medium text-ink-muted">
+          {tasks.length}
+        </span>
       </div>
 
       <div
         ref={setNodeRef}
-        className={`flex min-h-[8rem] flex-1 flex-col gap-3 rounded-card p-1 transition-colors ${isOver ? 'bg-accent-soft' : ''}`}
+        className={`flex min-h-[8rem] flex-1 flex-col gap-3 rounded-xl p-1 transition-colors ${isOver ? 'bg-accent-soft' : ''}`}
       >
         {loading ? (
           <ColumnSkeleton />

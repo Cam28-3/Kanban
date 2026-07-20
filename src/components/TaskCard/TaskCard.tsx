@@ -26,13 +26,15 @@ export function TaskCard({ task }: { task: Task }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`touch-none rounded-card border-l-[3px] bg-surface p-3 shadow-card transition-shadow hover:shadow-card-hover ${STATUS_ACCENT[task.status]} ${isDragging ? 'opacity-50' : ''}`}
+      className={`touch-none rounded-card border-l-[3px] bg-surface p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover ${STATUS_ACCENT[task.status]} ${isDragging ? 'opacity-50' : ''}`}
     >
-      <p className="font-display text-sm font-semibold text-ink">{task.title}</p>
+      <p className="font-display text-sm font-semibold leading-snug text-ink">{task.title}</p>
       {task.description && (
-        <p className="mt-1 line-clamp-2 font-body text-xs text-ink-muted">{task.description}</p>
+        <p className="mt-1.5 whitespace-pre-wrap break-words font-body text-xs leading-relaxed text-ink-muted">
+          {task.description}
+        </p>
       )}
-      <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
         <PriorityBadge priority={task.priority} />
         <DueDateBadge dueDate={task.due_date} />
       </div>

@@ -40,11 +40,11 @@ export function Board() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8">
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div className="mx-auto max-w-7xl px-6 py-10">
+      <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-bold text-ink">Board</h1>
-          <p className="font-body text-sm text-ink-muted">Guest session</p>
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink">Board</h1>
+          <p className="mt-1 font-body text-sm text-ink-muted">Guest session</p>
         </div>
         <div className="flex items-center gap-4">
           <BoardStats tasks={tasks} />
@@ -61,7 +61,7 @@ export function Board() {
       )}
 
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-5 overflow-x-auto pb-4">
+        <div className="grid grid-cols-4 gap-6">
           {STATUS_ORDER.map((status) => (
             <Column
               key={status}
