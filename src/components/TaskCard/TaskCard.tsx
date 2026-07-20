@@ -2,6 +2,7 @@ import { useDraggable } from '@dnd-kit/core'
 import type { Status, Task } from '../../types/task'
 import { PriorityBadge } from './PriorityBadge'
 import { DueDateBadge } from './DueDateBadge'
+import { getLabelColor } from '../../utils/labelColor'
 
 // Status-to-color mapping, kept in sync with components/Board/Column.tsx by convention.
 const STATUS_ACCENT: Record<Status, string> = {
@@ -37,6 +38,14 @@ export function TaskCard({ task }: { task: Task }) {
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         <PriorityBadge priority={task.priority} />
         <DueDateBadge dueDate={task.due_date} />
+        {task.labels.map((label) => (
+          <span
+            key={label}
+            className={`inline-flex items-center rounded-pill px-2 py-0.5 font-mono text-[11px] font-bold ${getLabelColor(label)}`}
+          >
+            {label}
+          </span>
+        ))}
       </div>
     </div>
   )

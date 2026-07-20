@@ -7,6 +7,7 @@ interface NewTaskInput {
   description?: string
   priority?: Priority
   due_date?: string | null
+  labels?: string[]
 }
 
 interface UseTasksState {
@@ -56,6 +57,7 @@ export function useTasks(userId: string | undefined) {
           description: input.description ?? null,
           priority: input.priority ?? 'normal',
           due_date: input.due_date ?? null,
+          labels: input.labels ?? [],
           status: 'todo',
           user_id: userId,
         })

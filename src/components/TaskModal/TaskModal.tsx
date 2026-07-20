@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { FormEvent, KeyboardEvent } from 'react'
 import { Button } from '../ui/Button'
 import type { Priority } from '../../types/task'
+import { getLabelColor } from '../../utils/labelColor'
 
 interface TaskModalProps {
   onClose: () => void
@@ -10,6 +11,7 @@ interface TaskModalProps {
     description?: string
     priority: Priority
     due_date: string | null
+    labels: string[]
   }) => Promise<void>
 }
 
@@ -18,7 +20,30 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState<Priority>('normal')
   const [dueDate, setDueDate] = useState('')
+  const [labels, setLabels] = useState<string[]>([])
+  const [labelInput, setLabelInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  function addLabel() {
+    const value = labelInput.trim()
+    if (value && !labels.includes(value)) {
+      setLabels([...labels, value])
+    }
+    setLabelInput('')
+  }
+
+  function handleLabelKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter' || event.key === ',') {
+      event.preventDefault()
+      addLabel()
+    } else if (event.key === 'Backspace' && !labelInput && labels.length > 0) {
+      setLabels(labels.slice(0, -1))
+    }
+  }
+
+  function removeLabel(label: string) {
+    setLabels(labels.filter((l) => l !== label))
+  }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -30,6 +55,7 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
       description: description.trim() || undefined,
       priority,
       due_date: dueDate || null,
+      labels,
     })
     setSubmitting(false)
     onClose()
@@ -96,6 +122,39 @@ export function TaskModal({ onClose, onCreate }: TaskModalProps) {
                 value={dueDate}
                 onChange={(event) => setDueDate(event.target.value)}
                 className="mt-1 w-full rounded-lg border border-white/10 bg-canvas px-3 py-2 font-body text-sm text-ink focus:border-accent focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="labels" className="font-body text-xs font-medium text-ink-muted">
+              Labels
+            </label>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5 rounded-lg border border-white/10 bg-canvas px-2 py-1.5 focus-within:border-accent">
+              {labels.map((label) => (
+                <span
+                  key={label}
+                  className={`inline-flex items-center gap-1 rounded-pill px-2 py-0.5 font-mono text-[11px] font-bold ${getLabelColor(label)}`}
+                >
+                  {label}
+                  <button
+                    type="button"
+                    onClick={() => removeLabel(label)}
+                    className="opacity-70 hover:opacity-100"
+                    aria-label={`Remove ${label}`}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+              <input
+                id="labels"
+                value={labelInput}
+                onChange={(event) => setLabelInput(event.target.value)}
+                onKeyDown={handleLabelKeyDown}
+                onBlur={addLabel}
+                className="min-w-[6rem] flex-1 bg-transparent px-1 py-0.5 font-body text-sm text-ink focus:outline-none"
+                placeholder={labels.length === 0 ? 'Type a label, press Enter' : ''}
               />
             </div>
           </div>

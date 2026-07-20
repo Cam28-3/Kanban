@@ -11,8 +11,12 @@ create table if not exists public.tasks (
   description text,
   priority text not null check (priority in ('low', 'normal', 'high')) default 'normal',
   due_date date,
-  assignee_id uuid references auth.users (id)
+  assignee_id uuid references auth.users (id),
+  labels text[] not null default '{}'::text[]
 );
+
+-- Safe to re-run against a database created before labels existed.
+alter table public.tasks add column if not exists labels text[] not null default '{}'::text[];
 
 create index if not exists tasks_user_id_created_at_idx
   on public.tasks (user_id, created_at);

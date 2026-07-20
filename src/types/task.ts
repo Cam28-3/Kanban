@@ -12,6 +12,7 @@ export interface Task {
   priority: Priority
   due_date: string | null
   assignee_id: string | null
+  labels: string[]
 }
 
 export const STATUS_ORDER: Status[] = ['todo', 'in_progress', 'in_review', 'done']
